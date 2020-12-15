@@ -1,7 +1,13 @@
 import time
 import displayio
+import neopixel
+import board
 from adafruit_magtag.magtag import MagTag
 from adafruit_display_shapes.circle import Circle
+from adafruit_led_animation.animation.solid import Solid
+from adafruit_led_animation.group import AnimationGroup
+from adafruit_led_animation.color import RED, GREEN
+from adafruit_led_animation.helper import PixelMap
 
 #  create MagTag and connect to network
 try:
@@ -69,7 +75,7 @@ for spot in spots:
     ball_index += 1
     ball_index %= len(ball_color)
 
-	#  adding circles to their display group
+    #  adding circles to their display group
     circle_group.append(circle)
 
 #  adding circles group to main display group
@@ -95,6 +101,17 @@ for i in range(day):
 magtag.display.show(group)
 magtag.display.refresh()
 time.sleep(5)
+
+# Neopixel strip
+magtag.peripherals.neopixel_disable = True
+strip_pin = board.D10
+strip_brightness = 0.25
+days_left = 25 - day
+pixel_list = range(days_left)
+pixel_strip = neopixel.NeoPixel(strip_pin, 30, brightness=strip_brightness, auto_write=False)
+green = PixelMap(pixel_strip, pixel_list[0:days_left:2], True)
+red = PixelMap(pixel_strip, pixel_list[1:days_left:2], True)
+AnimationGroup(Solid(green, GREEN), Solid(red, RED)).animate()
 
 #  goes into deep sleep till a 'stroke' past midnight
 print("entering deep sleep")
