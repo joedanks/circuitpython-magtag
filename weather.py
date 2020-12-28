@@ -13,7 +13,8 @@ magtag = MagTag(
         ["main", "temp"],
         ["main", "temp_max"],
         ["main", "temp_min"],
-        ["weather", 0, "main"]
+        ["weather", 0, "main"],
+        ["wind", "speed"]
     )
 )
 
@@ -34,21 +35,31 @@ magtag.add_text(
 
 magtag.add_text(
     text_position=(10, 50),
-    text_transform=lambda x: "Current: {}F".format(x)
+    text_transform=lambda x: "Current: {}F".format(x),
+    text_scale=2
 )
 
 magtag.add_text(
-    text_position=(10, 60),
-    text_transform=lambda x: "Max: {}F".format(x)
+    text_position=(10, 75),
+    text_transform=lambda x: "Max: {}F".format(x),
+    text_scale=2
 )
 
 magtag.add_text(
-    text_position=(60, 60),
-    text_transform=lambda x: "Min: {}F".format(x)
+    text_position=(120, 75),
+    text_transform=lambda x: "Min: {}F".format(x),
+    text_scale=2
 )
 
 magtag.add_text(
-    text_position=(10, 90)
+    text_position=(10, 110),
+    text_scale=2
+)
+
+magtag.add_text(
+    text_position=(130, 110),
+    text_transform=lambda x: "{} mph".format(x),
+    text_scale=2
 )
 
 magtag.peripherals.neopixels.brightness = 0.1
@@ -59,4 +70,4 @@ raw = magtag.fetch()
 
 print(raw)
 
-time.sleep(30)
+magtag.exit_and_deep_sleep(900)
