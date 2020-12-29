@@ -79,5 +79,5 @@ magtag.refresh()
 
 time.sleep(30)
 
-# print('starting deep sleep')
-# magtag.exit_and_deep_sleep(300)
+print('starting deep sleep')
+magtag.exit_and_deep_sleep(900)
